@@ -23,7 +23,6 @@ public class Main extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new Events(), this);
         ParkourManager.getOrMakeInstance();
-//        getServer().getPluginManager().registerEvents(new Gui_inProcess(), this);
         getServer().getPluginCommand("parkour").setExecutor(new ParkourCommand());
     }
 
