@@ -123,10 +123,6 @@ public class Events implements Listener {
         }
     }
 
-    public static List<ParkourSession> getParkourGenerators() {
-        return parkourGenerators;
-    }
-
     public static void setParkourGenerators(List<ParkourSession> parkourGenerators) {
         Events.parkourGenerators = parkourGenerators;
     }

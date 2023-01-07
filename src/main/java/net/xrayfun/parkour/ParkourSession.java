@@ -81,34 +81,18 @@ public class ParkourSession {
         return valid1 && valid2;
     }
 
-
-
-    /**
-     * <p> Получение текущего счета в сессии.
-     * @return score
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * <p> Установка текущего счета в сессии.
-     */
     public void setScore(int score) {
         this.score = score;
     }
 
-    /**
-     * <p> Увеличение текущего счета в сессии.
-     */
     public void addScore(int score) {
         this.score += score;
     }
 
-    /**
-     * <p> Получение игрока из сессии.
-     * @return player
-     */
     public Player getPlayer() {
         return player;
     }
@@ -141,10 +125,6 @@ public class ParkourSession {
         this.next = next;
     }
 
-    /**
-     * <p> Определение первой генерации в сессии.
-     * @return boolean of <b>firstGen</b>
-     */
     public boolean isFirstGen() {
         return firstGen;
     }
