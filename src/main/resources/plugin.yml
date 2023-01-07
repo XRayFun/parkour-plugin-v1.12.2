@@ -1,0 +1,42 @@
+name: parkour
+main: net.xrayfun.parkour.Main
+version: 1.0
+author: XRayFun_GF
+
+commands:
+#  p-create:
+#    permission: op, parkour
+#    usage: /<command> [name] <type>
+#    permission-message: You don't have <permission>
+  #  p-remove:
+  #    permission: op, parkour
+  #    usage: /<command> [name]
+  #    permission-message: You don't have <permission>
+#  p-pos:
+#    permission: op, parkour
+#    usage: /<command> [name] [<pos> | <pos> <pos>]
+#    permission-message: You don't have <permission>
+#  p-set-start:
+#    permission: op, parkour
+#    usage: /<command> [name] <pos>
+#    permission-message: You don't have <permission>
+#  p-leave:
+#    permission: default
+#    usage: /<command> [name] <pos>
+#    permission-message: You don't have <permission>
+#  p-reset:
+#    permission: default
+#    usage: /<command> [name] <pos>
+#    permission-message: You don't have <permission>
+  parkour:
+    permission: parkour.base
+    usage: /<command> help
+
+permissions:
+  parkour.admin:
+    default: op
+    children:
+      parkour.base: true
+
+  parkour.base:
+    default: true
