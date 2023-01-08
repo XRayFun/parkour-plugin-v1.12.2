@@ -56,6 +56,25 @@ public class ParkourCommand implements CommandExecutor {
     private static final List<String> playerCommands = Arrays.asList("start", "leave", "reset", "help");
     private static final List<String> adminCommands = Arrays.asList("create", "remove", "pos1", "pos2", "respawn", "difficult");
 
+    private boolean checkValidData(String data, Player player) {
+        player.sendMessage(data);
+        player.sendMessage(String.valueOf(data.equals(";")));
+        player.sendMessage(String.valueOf(data.equals("'")));
+        player.sendMessage(String.valueOf(data.equals("\"")));
+        player.sendMessage(String.valueOf(data.equals(",")));
+        player.sendMessage(String.valueOf(data.equals("*")));
+        player.sendMessage(String.valueOf(data.equals("/")));
+        boolean valid = !(
+                data.equals(";") ||
+                data.equals("'") ||
+                data.equals("\"") ||
+                data.equals(",") ||
+                data.equals("*") ||
+                data.equals("/"));
+        player.sendMessage(String.valueOf(valid));
+        return valid;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         if (!(sender instanceof Player)) return false;
@@ -66,7 +85,6 @@ public class ParkourCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-//            Gui_inProcess.openInventory(player);
             sendHelp(player);
             return true;
         }
@@ -93,6 +111,10 @@ public class ParkourCommand implements CommandExecutor {
             }
             if (args[0].equals("create")) {
                 if (tooManyArgs(player, args.length, 3)) return false;
+                if (!checkValidData(args[1], player)) {
+                    player.sendMessage("Использование специальных символов запрещено!");
+                    return false;
+                }
                 try {
                     if (!ParkourManager.parkourSettings.containsKey(args[1])) {
                         ParkourSettings.Difficult difficult = ParkourSettings.Difficult.valueOf(args[2].toUpperCase());
@@ -109,6 +131,10 @@ public class ParkourCommand implements CommandExecutor {
             }
             if (args[0].equals("remove")) {
                 if (tooManyArgs(player, args.length, 2)) return false;
+                if (!checkValidData(args[1], player)) {
+                    player.sendMessage("Использование специальных символов запрещено!");
+                    return false;
+                }
                 if (!ParkourManager.parkourSettings.containsKey(args[1])) {
                     player.sendMessage("Такого паркура не существует.");
                     return false;

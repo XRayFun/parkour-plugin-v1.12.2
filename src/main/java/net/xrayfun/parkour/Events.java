@@ -95,17 +95,25 @@ public class Events implements Listener {
     private void generator(ParkourSession session, Player player) throws SQLException {
         Location bPL = player.getLocation().clone();
         Location bNL = session.getNext().clone();
-        int save = DataBaseManager.getDataScore(session.getSettings().getName(), player);
+        int save = DataBaseManager.getData(ParkourManager.getSession(player).getSettings().getName(), player, "score");
         int sess = session.getScore();
         if (bPL.getBlockY() < bNL.getBlockY()) {
             if(session.getSettings().getDifficult() == ParkourSettings.Difficult.HARD) {
                 player.teleport(session.getCurrent().clone().add(0.5,2,0.5));
-                DataBaseManager.setData(session.getSettings().getName(), player, Math.max(save, sess));
+                DataBaseManager.setData(
+                        session.getSettings().getName(),
+                        player,
+                        new String[]{String.valueOf(Math.max(save, sess))},
+                        new String[]{"score"});
                 session.setScore(0);
                 scoreboardStats.get(player).update(player);
             }
             if(session.getSettings().getDifficult() == ParkourSettings.Difficult.INFINITY) {
-                DataBaseManager.setData(session.getSettings().getName(), player, Math.max(save, sess));
+                DataBaseManager.setData(
+                        session.getSettings().getName(),
+                        player,
+                        new String[]{String.valueOf(Math.max(save, sess))},
+                        new String[]{"score"});
                 player.teleport(session.getCurrent().clone().add(0.5,2,0.5));
                 session.setScore((session.getScore() >= 5 ? session.getScore() - 5 : 0));
                 scoreboardStats.get(player).update(player);
@@ -116,7 +124,11 @@ public class Events implements Listener {
                 session.getCurrent().getBlock().setType(Material.AIR);
             }
             session.addScore(1); sess++;
-            DataBaseManager.setData(session.getSettings().getName(), player, Math.max(save, sess));
+            DataBaseManager.setData(
+                    session.getSettings().getName(),
+                    player,
+                    new String[]{String.valueOf(Math.max(save, sess))},
+                    new String[]{"score"});
             session.setCurrent(session.getNext());
             scoreboardStats.get(player).update(player);
             session.setSecondGen(true);

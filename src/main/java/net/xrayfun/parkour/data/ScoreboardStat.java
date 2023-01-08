@@ -28,7 +28,7 @@ public class ScoreboardStat {
         Score score = objective.getScore("§a§lСчет:");
         score.setScore(ParkourManager.getSession(player).getScore());
         Score top = objective.getScore("§6§lЛучший счет:");
-        top.setScore(DataBaseManager.getDataScore(ParkourManager.getSession(player).getSettings().getName(), player));
+        top.setScore(DataBaseManager.getData(ParkourManager.getSession(player).getSettings().getName(), player, "score"));
         player.setScoreboard(scoreboard);
     }
 
@@ -37,14 +37,14 @@ public class ScoreboardStat {
         Score score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore("§a§lСчет:");
         score.setScore(session.getScore());
         score = player.getScoreboard().getObjective(DisplaySlot.SIDEBAR).getScore("§6§lЛучший счет:");
-        score.setScore(DataBaseManager.getDataScore(session.getSettings().getName(), player));
+        score.setScore(DataBaseManager.getData(session.getSettings().getName(), player, "score"));
     }
 
     public void remove(Player player) throws SQLException {
         player.setScoreboard(manager.getNewScoreboard());
         ParkourSession session = ParkourManager.getSession(player);
-        int scoreDB = DataBaseManager.getDataScore(ParkourManager.getSession(player).getSettings().getName(), player);
+        int scoreDB = DataBaseManager.getData(ParkourManager.getSession(player).getSettings().getName(), player, "score");
         if(scoreDB < session.getScore())
-            DataBaseManager.setData(session.getSettings().getName(), player, session.getScore());
+            DataBaseManager.setData(session.getSettings().getName(), player, new String[]{String.valueOf(session.getScore())}, new String[]{"score"});
     }
 }

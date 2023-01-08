@@ -8,11 +8,12 @@ import java.io.File;
 import java.sql.*;
 
 public class DataBaseManager {
-    private static String url = "jdbc:sqlite:" + Main.getInstance().getDataFolder() + "/top.db";
+    private static String filePath = Main.getInstance().getDataFolder() + "/top.db";
+    private static final String url = "jdbc:sqlite:" + filePath;
     private static DataBaseManager instance;
 
     public DataBaseManager() {
-        File dbFile = new File(Main.getInstance().getDataFolder() + "/top.db");
+        File dbFile = new File(filePath);
         if (!dbFile.exists()) {
             try {
                 dbFile.createNewFile();
@@ -43,36 +44,43 @@ public class DataBaseManager {
         stmt.close();
     }
 
-    public static void insertData(String parkourName, Player player, int score) throws SQLException {
+    public static void insertData(String parkourName, Player player, String... values) throws SQLException {
         Connection con = getConnection();
         Statement stmt = con.createStatement();
 
-        stmt.execute("INSERT INTO " + parkourName + " (nick, score) VALUES ('" + player.getName() + "', " + score + ");");
+        stmt.execute("INSERT INTO " + parkourName + " VALUES ('" + player.getName() + "', " + String.join(", ", values) + ");");
         stmt.close();
     }
 
-    public static void setData(String parkourName, Player player, int score) throws SQLException {
+    public static void setData(String parkourName, Player player, String[] values, String[] types) throws SQLException {
+        if(values.length != types.length) return;
         Connection con = getConnection();
         Statement stmt = con.createStatement();
+        StringBuilder sets = new StringBuilder();
+        for (int i = 0; i < values.length; i++){
+            if(i != 0)
+                sets.append(", ");
+            sets.append(types[i]).append("=").append(values[i]);
+        }
         try {
-            stmt.execute("UPDATE " + parkourName + " SET score = " + score + " WHERE nick = '" + player.getName() + "';");
+            stmt.execute("UPDATE " + parkourName + " SET " + sets + " WHERE nick = '" + player.getName() + "';");
         } catch (SQLException e) {
             e.printStackTrace();
-            insertData(parkourName, player, score);
+            insertData(parkourName, player, values);
         }
         stmt.close();
     }
 
-    public static int getDataScore(String parkourName, Player player) {
+    public static int getData(String parkourName, Player player, String column) {
         try {
             Connection con = getConnection();
             Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT score FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
-            if(!result.next()) {
-                insertData(parkourName, player, ParkourManager.getSession(player).getScore());
-                result = stmt.executeQuery("SELECT score FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
+            ResultSet result = stmt.executeQuery("SELECT " + column + " FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
+            if (!result.next()) {
+                insertData(parkourName, player, String.valueOf(ParkourManager.getSession(player).getScore()));
+                result = stmt.executeQuery("SELECT " + column + " FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
             }
-            int data = result.getInt("score");
+            int data = result.getInt(column);
             stmt.close();
             result.close();
             return data;

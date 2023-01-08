@@ -64,7 +64,7 @@ public class ParkourManager {
     }
 
     public static void startSession(Player player, String parkourName) {
-        if(!parkourSettings.containsKey(parkourName)) {
+        if (!parkourSettings.containsKey(parkourName)) {
             player.sendMessage("Такого паркура не существует!");
             return;
         }
@@ -90,7 +90,7 @@ public class ParkourManager {
     }
 
     public static void stopSession(boolean msg, Player... players) {
-        for(Player player : players) {
+        for (Player player : players) {
             try {
                 ParkourSession session = sessions.get(player);
                 removeParkourGenerators(sessions.get(player));
