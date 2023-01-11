@@ -11,10 +11,6 @@ public class DataBaseManager {
     private static final String filePath = Main.getInstance().getDataFolder() + "/top.db";
     private static final String url = "jdbc:sqlite:" + filePath;
     private static DataBaseManager instance;
-    private enum Columns{
-        nick,
-        score
-    }
 
     public DataBaseManager() {
         File dbFile = new File(filePath);
@@ -32,7 +28,7 @@ public class DataBaseManager {
         }
     }
 
-    public static void getOrMakeInstance() throws SQLException {
+    public static void getOrMakeInstance() {
         if (instance == null) instance = new DataBaseManager();
     }
 
@@ -41,7 +37,7 @@ public class DataBaseManager {
     }
 
     // Checker tableName in ParkourCommand.class (checkValidStringDB(String data))
-    public static void makeTable(String tableName) throws SQLException {
+    public static void makeTable(String tableName) {
         try (Statement stmt = getConnection().createStatement();){
             stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " ('nick' TEXT, 'score' INT)");
         } catch (Exception e) {
