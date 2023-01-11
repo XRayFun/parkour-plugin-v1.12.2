@@ -9,12 +9,10 @@ import org.bukkit.scoreboard.*;
 import java.sql.SQLException;
 
 public class ScoreboardStat {
-    private final Player player;
     private final Objective objective;
     private final ScoreboardManager manager;
     private final Scoreboard scoreboard;
     public ScoreboardStat(Player player) {
-        this.player = player;
         this.manager = Bukkit.getScoreboardManager();
         this.scoreboard = manager.getNewScoreboard();
         this.objective = scoreboard.registerNewObjective(player.getName(), "dummy");

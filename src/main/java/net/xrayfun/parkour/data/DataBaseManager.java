@@ -8,7 +8,7 @@ import java.io.File;
 import java.sql.*;
 
 public class DataBaseManager {
-    private static String filePath = Main.getInstance().getDataFolder() + "/top.db";
+    private static final String filePath = Main.getInstance().getDataFolder() + "/top.db";
     private static final String url = "jdbc:sqlite:" + filePath;
     private static DataBaseManager instance;
 

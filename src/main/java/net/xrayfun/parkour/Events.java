@@ -39,9 +39,7 @@ public class Events implements Listener {
                         if (!session.isSecondGen() && !session.isFirstGen())
                             generator(session, player);
                     }
-                } catch (Exception e) {
-
-                }
+                } catch (Exception ignored) {}
             }
         }.runTaskTimer(getInstance(), 0, 2);
 
