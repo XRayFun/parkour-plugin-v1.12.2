@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ee8c591-722a-424f-8114-8e8b73372936" name="Changes" comment="add checker for player input (sql inject)&#10;update DataBaseManager structure (universal use)">
+    <list default="true" id="3ee8c591-722a-424f-8114-8e8b73372936" name="Changes" comment="remove debug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/xrayfun/parkour/Events.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/xrayfun/parkour/Events.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/xrayfun/parkour/commands/ParkourCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/xrayfun/parkour/commands/ParkourCommand.java" afterDir="false" />
@@ -125,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673204396799</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="remove debug">
+      <created>1673402160709</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1673402160709</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -155,7 +162,8 @@
     <MESSAGE value="init project Parkour" />
     <MESSAGE value="remove usefully" />
     <MESSAGE value="add checker for player input (sql inject)&#10;update DataBaseManager structure (universal use)" />
-    <option name="LAST_COMMIT_MESSAGE" value="add checker for player input (sql inject)&#10;update DataBaseManager structure (universal use)" />
+    <MESSAGE value="remove debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove debug" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

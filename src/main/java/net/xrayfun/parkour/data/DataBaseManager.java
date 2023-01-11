@@ -11,6 +11,10 @@ public class DataBaseManager {
     private static final String filePath = Main.getInstance().getDataFolder() + "/top.db";
     private static final String url = "jdbc:sqlite:" + filePath;
     private static DataBaseManager instance;
+    private enum Columns{
+        nick,
+        score
+    }
 
     public DataBaseManager() {
         File dbFile = new File(filePath);
@@ -36,52 +40,47 @@ public class DataBaseManager {
         return DriverManager.getConnection(url);
     }
 
-    public static void makeTable(String parkourName) throws SQLException {
-        Connection con = getConnection();
-        Statement stmt = con.createStatement();
-
-        stmt.execute("CREATE TABLE IF NOT EXISTS " + parkourName + " ('nick' TEXT, 'score' INT)");
+    // Checker tableName in ParkourCommand.class (checkValidStringDB(String data))
+    public static void makeTable(String tableName) throws SQLException {
+        Statement stmt = getConnection().createStatement();
+        stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " ('nick' TEXT, 'score' INT)");
         stmt.close();
     }
 
-    public static void insertData(String parkourName, Player player, String... values) throws SQLException {
-        Connection con = getConnection();
-        Statement stmt = con.createStatement();
-
-        stmt.execute("INSERT INTO " + parkourName + " VALUES ('" + player.getName() + "', " + String.join(", ", values) + ");");
-        stmt.close();
-    }
-
-    public static void setData(String parkourName, Player player, String[] values, String[] types) throws SQLException {
-        if(values.length != types.length) return;
-        Connection con = getConnection();
-        Statement stmt = con.createStatement();
-        StringBuilder sets = new StringBuilder();
-        for (int i = 0; i < values.length; i++){
-            if(i != 0)
-                sets.append(", ");
-            sets.append(types[i]).append("=").append(values[i]);
+    // пользовательский ввод не предусмотрен
+    public static void insertData(String tableName, Player player, String... value) throws SQLException {
+        String sql = "INSERT INTO " + tableName + " VALUES (?, ?);";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)){
+            stmt.setString(1, player.getName());
+            stmt.setString(2, String.join(", ", value));
+            stmt.executeUpdate();
         }
-        try {
-            stmt.execute("UPDATE " + parkourName + " SET " + sets + " WHERE nick = '" + player.getName() + "';");
+    }
+
+    // пользовательский ввод не предусмотрен
+    public static void setData(String tableName, Player player, String value) throws SQLException {
+        String sql = "UPDATE " + tableName + " SET score=? WHERE nick=?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql);){
+            stmt.setString(1, value);
+            stmt.setString(2, player.getName());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            insertData(parkourName, player, values);
+            insertData(tableName, player, value);
         }
-        stmt.close();
     }
 
-    public static int getData(String parkourName, Player player, String column) {
-        try {
-            Connection con = getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT " + column + " FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
+    // пользовательский ввод не предусмотрен
+    public static int getData(String tableName, Player player, String column) {
+        String sql = "SELECT " + column + " FROM " + tableName + " WHERE nick=?;";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)){
+            stmt.setString(1, player.getName());
+            ResultSet result = stmt.executeQuery();
             if (!result.next()) {
-                insertData(parkourName, player, String.valueOf(ParkourManager.getSession(player).getScore()));
-                result = stmt.executeQuery("SELECT " + column + " FROM " + parkourName + " WHERE nick = '" + player.getName() + "';");
+                insertData(tableName, player, String.valueOf(ParkourManager.getSession(player).getScore()));
+                result = stmt.executeQuery();
             }
             int data = result.getInt(column);
-            stmt.close();
             result.close();
             return data;
         } catch (Exception e) {
@@ -90,12 +89,11 @@ public class DataBaseManager {
         return -1;
     }
 
-    public static void dropTable(String parkourName) {
+    // Checker tableName in ParkourCommand.class (checkValidStringDB(String data))
+    public static void dropTable(String tableName) {
         try {
-            Connection con = getConnection();
-            Statement stmt = con.createStatement();
-
-            stmt.execute("DROP TABLE IF EXISTS " + parkourName + ";");
+            Statement stmt = getConnection().createStatement();
+            stmt.execute("DROP TABLE IF EXISTS " + tableName + ";");
             stmt.close();
         } catch (Exception e) {
             e.printStackTrace();

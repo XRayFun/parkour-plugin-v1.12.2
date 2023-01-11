@@ -56,7 +56,7 @@ public class ParkourCommand implements CommandExecutor {
     private static final List<String> playerCommands = Arrays.asList("start", "leave", "reset", "help");
     private static final List<String> adminCommands = Arrays.asList("create", "remove", "pos1", "pos2", "respawn", "difficult");
 
-    private boolean checkValidData(String data) {
+    private boolean checkValidStringDB(String data) {
         return data.equals(";") ||
                 data.equals("'") ||
                 data.equals("\"") ||
@@ -101,7 +101,7 @@ public class ParkourCommand implements CommandExecutor {
             }
             if (args[0].equals("create")) {
                 if (tooManyArgs(player, args.length, 3)) return false;
-                if (checkValidData(args[1])) {
+                if (checkValidStringDB(args[1])) {
                     player.sendMessage("Использование специальных символов запрещено!");
                     return false;
                 }
@@ -121,7 +121,7 @@ public class ParkourCommand implements CommandExecutor {
             }
             if (args[0].equals("remove")) {
                 if (tooManyArgs(player, args.length, 2)) return false;
-                if (checkValidData(args[1])) {
+                if (checkValidStringDB(args[1])) {
                     player.sendMessage("Использование специальных символов запрещено!");
                     return false;
                 }

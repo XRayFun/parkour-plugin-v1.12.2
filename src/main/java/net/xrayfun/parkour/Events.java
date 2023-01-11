@@ -101,8 +101,7 @@ public class Events implements Listener {
                 DataBaseManager.setData(
                         session.getSettings().getName(),
                         player,
-                        new String[]{String.valueOf(Math.max(save, sess))},
-                        new String[]{"score"});
+                        String.valueOf(Math.max(save, sess)));
                 session.setScore(0);
                 scoreboardStats.get(player).update(player);
             }
@@ -110,8 +109,7 @@ public class Events implements Listener {
                 DataBaseManager.setData(
                         session.getSettings().getName(),
                         player,
-                        new String[]{String.valueOf(Math.max(save, sess))},
-                        new String[]{"score"});
+                        String.valueOf(Math.max(save, sess)));
                 player.teleport(session.getCurrent().clone().add(0.5,2,0.5));
                 session.setScore((session.getScore() >= 5 ? session.getScore() - 5 : 0));
                 scoreboardStats.get(player).update(player);
@@ -125,8 +123,7 @@ public class Events implements Listener {
             DataBaseManager.setData(
                     session.getSettings().getName(),
                     player,
-                    new String[]{String.valueOf(Math.max(save, sess))},
-                    new String[]{"score"});
+                    String.valueOf(Math.max(save, sess)));
             session.setCurrent(session.getNext());
             scoreboardStats.get(player).update(player);
             session.setSecondGen(true);

@@ -43,6 +43,8 @@ public class ScoreboardStat {
         ParkourSession session = ParkourManager.getSession(player);
         int scoreDB = DataBaseManager.getData(ParkourManager.getSession(player).getSettings().getName(), player, "score");
         if(scoreDB < session.getScore())
-            DataBaseManager.setData(session.getSettings().getName(), player, new String[]{String.valueOf(session.getScore())}, new String[]{"score"});
+            DataBaseManager.setData(session.getSettings().getName(),
+                    player,
+                    String.valueOf(session.getScore()));
     }
 }
