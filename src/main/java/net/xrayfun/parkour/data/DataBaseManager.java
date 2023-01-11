@@ -42,9 +42,11 @@ public class DataBaseManager {
 
     // Checker tableName in ParkourCommand.class (checkValidStringDB(String data))
     public static void makeTable(String tableName) throws SQLException {
-        Statement stmt = getConnection().createStatement();
-        stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " ('nick' TEXT, 'score' INT)");
-        stmt.close();
+        try (Statement stmt = getConnection().createStatement();){
+            stmt.execute("CREATE TABLE IF NOT EXISTS " + tableName + " ('nick' TEXT, 'score' INT)");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // пользовательский ввод не предусмотрен
@@ -91,10 +93,8 @@ public class DataBaseManager {
 
     // Checker tableName in ParkourCommand.class (checkValidStringDB(String data))
     public static void dropTable(String tableName) {
-        try {
-            Statement stmt = getConnection().createStatement();
+        try (Statement stmt = getConnection().createStatement()){
             stmt.execute("DROP TABLE IF EXISTS " + tableName + ";");
-            stmt.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
